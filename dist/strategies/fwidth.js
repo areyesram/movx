@@ -1,0 +1,22 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const child_process_1 = require("child_process");
+const dimension_format_1 = require("../dimension-format");
+const util_1 = require("util");
+const execAsync = (0, util_1.promisify)(child_process_1.exec);
+const fwidth = {
+    async getTargetDir(filePath, options) {
+        try {
+            const { stdout } = await execAsync(`ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=p=0 "${filePath}"`);
+            const width = stdout.trim();
+            if (width && !isNaN(Number(width))) {
+                return (0, dimension_format_1.formatDimensionWithUnit)(Number(width), options?.dimensionUnit ?? "b");
+            }
+            return null;
+        }
+        catch {
+            return null;
+        }
+    },
+};
+exports.default = fwidth;

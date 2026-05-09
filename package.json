@@ -1,0 +1,27 @@
+{
+  "name": "movx",
+  "version": "1.0.0",
+  "description": "A Node.js CLI to move files to extension-based directories",
+  "main": "dist/index.js",
+  "bin": {
+    "movx": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "cli",
+    "move",
+    "extension"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "image-size": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
+  }
+}
