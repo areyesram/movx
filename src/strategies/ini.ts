@@ -25,11 +25,11 @@ const ini: Strategy = {
         // Get the first letter of the first non-article word
         const firstLetter = words[startIndex].charAt(0);
 
-        // Ensure it's a letter, otherwise use 'other' or similar
+        // Ensure it's a letter, otherwise use '0'
         if (/[a-z]/.test(firstLetter)) {
             return firstLetter;
         } else {
-            return "other";
+            return "0";
         }
     },
 };
