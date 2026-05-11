@@ -14,6 +14,7 @@ const STRATEGIES: Record<string, string> = {
     fheight: "./strategies/fheight",
     fdims: "./strategies/fdims",
     duration: "./strategies/duration",
+    ini: "./strategies/ini",
 };
 
 function printHelp(): void {
@@ -25,6 +26,7 @@ function printHelp(): void {
     console.log("  dims     Organize images by dimensions (e.g., 1920x1080, 2x1)");
     console.log("  ext      Organize by file extension (e.g., jpg, png)");
     console.log("  height   Organize images by height (e.g., 1080, 1)");
+    console.log("  ini      Organize by initial letter of filename (skipping articles like 'The', 'El', etc.)");
     console.log("  size     Organize by file size rounded to 100kb (e.g., 000kb, 100kb)");
     console.log("  width    Organize images by width (e.g., 1920, 2)");
     console.log("  fwidth   Organize videos by width (e.g., 1920, 2)");

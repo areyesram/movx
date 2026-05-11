@@ -47,6 +47,7 @@ movx --help
 - `fheight`: organize videos by height like `1080`, `1`, or `0`
 - `fdims`: organize videos by dimensions like `1920x1080` or `2x1`
 - `duration`: organize audio or video by duration in seconds like `120`
+- `ini`: organize by initial letter of filename, skipping articles like "The", "El", "La", "Los", "Las"
 
 Dimension unit flags for `width`, `height`, `dims`, `fwidth`, `fheight`, and `fdims`:
 
