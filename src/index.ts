@@ -3,19 +3,30 @@
 import fs from "fs";
 import path from "path";
 import { DimensionUnit, Strategy, StrategyOptions } from "./strategy";
+import ext from "./strategies/ext";
+import width from "./strategies/width";
+import height from "./strategies/height";
+import dims from "./strategies/dims";
+import size from "./strategies/size";
+import fwidth from "./strategies/fwidth";
+import fheight from "./strategies/fheight";
+import fdims from "./strategies/fdims";
+import duration from "./strategies/duration";
+import ini from "./strategies/ini";
 
-const STRATEGIES: Record<string, string> = {
-    ext: "./strategies/ext",
-    width: "./strategies/width",
-    height: "./strategies/height",
-    dims: "./strategies/dims",
-    size: "./strategies/size",
-    fwidth: "./strategies/fwidth",
-    fheight: "./strategies/fheight",
-    fdims: "./strategies/fdims",
-    duration: "./strategies/duration",
-    ini: "./strategies/ini",
+const STRATEGIES: Record<string, Strategy> = {
+    ext,
+    width,
+    height,
+    dims,
+    size,
+    fwidth,
+    fheight,
+    fdims,
+    duration,
+    ini,
 };
+
 
 function printHelp(): void {
     console.log("movx - A CLI tool to organize files into directories.");
@@ -86,15 +97,8 @@ async function main(): Promise<void> {
         dimensionUnit: getDimensionUnit(args),
     };
 
-    let strategy: Strategy;
-    try {
-        strategy = (await import(STRATEGIES[mode])).default as Strategy;
-    } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : String(err);
-        console.error(`Error loading strategy for mode '${mode}':`, message);
-        process.exit(1);
-        return;
-    }
+    const strategy = STRATEGIES[mode];
+
 
     const currentDir = process.cwd();
 
