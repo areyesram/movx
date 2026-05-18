@@ -51,6 +51,7 @@ function printHelp(): void {
     console.log("  -ub          Use pixels for dimension strategies (default)");
     console.log("  -uk          Use kilopixels for dimension strategies");
     console.log("  -um          Use megapixels for dimension strategies");
+    console.log("  -x, --exclude <pattern> Exclude files matching the wildcard pattern (e.g., '*.ts', 'temp*')");
     console.log("");
     console.log("Samples:");
     console.log("  movx -t ext");
@@ -97,10 +98,37 @@ async function main(): Promise<void> {
         dimensionUnit: getDimensionUnit(args),
     };
 
+    const excludes: string[] = [];
+    for (let i = 0; i < args.length; i++) {
+        if ((args[i] === "-x" || args[i] === "--exclude") && i + 1 < args.length) {
+            excludes.push(args[i + 1]);
+            i++;
+        }
+    }
+
     const strategy = STRATEGIES[mode];
 
-
     const currentDir = process.cwd();
+
+    function matchWildcard(str: string, rule: string): boolean {
+        const escapeRegex = (s: string) => s.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+        // Convert wildcard to regex: '*' becomes '.*', '?' becomes '.'
+        const regexStr = "^" + rule.split("*").map(escapeRegex).join(".*").replace(/\\\?/g, ".") + "$";
+        return new RegExp(regexStr).test(str);
+    }
+
+    function isExcluded(filePath: string): boolean {
+        if (excludes.length === 0) return false;
+        const fileName = path.basename(filePath);
+        const relPath = path.relative(currentDir, filePath);
+        
+        for (const pattern of excludes) {
+            if (matchWildcard(fileName, pattern) || matchWildcard(relPath, pattern)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     function getFiles(dir: string, filesList: string[] = []): string[] {
         let files: string[];
@@ -134,7 +162,9 @@ async function main(): Promise<void> {
                     getFiles(filePath, filesList);
                 }
             } else {
-                filesList.push(filePath);
+                if (!isExcluded(filePath)) {
+                    filesList.push(filePath);
+                }
             }
         }
         return filesList;

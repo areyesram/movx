@@ -27,7 +27,7 @@ movx -t ext
 ## Usage
 
 ```bash
-movx -t <strategy> [-ub|-uk|-um]
+movx -t <strategy> [-ub|-uk|-um] [-x|--exclude <pattern>]
 ```
 
 Show help:
@@ -55,6 +55,10 @@ Dimension unit flags for `width`, `height`, `dims`, `fwidth`, `fheight`, and `fd
 - `-uk`: kilopixels
 - `-um`: megapixels
 
+Other flags:
+
+- `-x, --exclude <pattern>`: Exclude files matching the wildcard pattern (e.g., `*.ts`, `temp*`). Can be used multiple times.
+
 ## Examples
 
 ```bash
@@ -62,6 +66,7 @@ movx -t ext
 movx -t dims
 movx -t fdims -uk
 movx -t duration
+movx -t ext -x "*.ts" -x "temp*"
 ```
 
 ## Notes
